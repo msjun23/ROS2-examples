@@ -14,10 +14,17 @@ class ClientPublisher(Node):
         timer_period = 0.5
         self.timer = self.create_timer(timer_period, self.timer_callback)
         
+        self.__LinearVel = 0.0
+        self.__AngularVel = 0.0
+        
+    def set_velocity(self, linear_vel, angular_vel):
+        self.__LinearVel = linear_vel
+        self.__AngularVel = angular_vel
+    
     def timer_callback(self):
         msg = Twist()
-        msg.linear.x = 1.0
-        msg.angular.z = 1.0
+        msg.linear.x = self.__LinearVel
+        msg.angular.z = self.__AngularVel
         self.publisher.publish(msg)
         self.get_logger().info('Publishing: %s' % msg)
         
